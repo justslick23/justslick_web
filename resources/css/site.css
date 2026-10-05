@@ -1,0 +1,246 @@
+/* ==========================================================================
+   Just Slick: site stylesheet
+   1. Imports   2. Design tokens   3. Base   4. Layout   5. Components
+   ========================================================================== */
+
+/* 1. Imports ------------------------------------------------------------- */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/inter';
+
+/* 2. Design tokens ------------------------------------------------------- */
+:root {
+    --js-font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
+    --js-font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --js-header-h: 4.5rem;
+    --bs-body-font-family: var(--js-font-body);
+}
+
+/* Dark is the default. The accent below is a placeholder: change it here. */
+[data-bs-theme='dark'] {
+    --js-bg: #141312;
+    --js-surface: #1d1b19;
+    --js-border: #2f2c29;
+    --js-text: #f3efe9;
+    --js-muted: #a9a29a;
+    --js-accent: #f5a524;
+    --js-accent-contrast: #141312;
+    --js-toggler-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28243, 239, 233, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --bs-link-color-rgb: 245, 165, 36;
+    --bs-link-hover-color-rgb: 255, 195, 90;
+}
+
+[data-bs-theme='light'] {
+    --js-bg: #f7f3ec;
+    --js-surface: #efe9df;
+    --js-border: #d9d1c4;
+    --js-text: #151413;
+    --js-muted: #5f5851;
+    --js-accent: #b45309;
+    --js-accent-contrast: #ffffff;
+    --js-toggler-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2821, 20, 19, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --bs-link-color-rgb: 180, 83, 9;
+    --bs-link-hover-color-rgb: 140, 60, 4;
+}
+
+[data-bs-theme='dark'],
+[data-bs-theme='light'] {
+    --bs-body-bg: var(--js-bg);
+    --bs-body-color: var(--js-text);
+    --bs-border-color: var(--js-border);
+}
+
+/* 3. Base ---------------------------------------------------------------- */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--js-header-h);
+}
+
+body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--js-font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+}
+
+:focus-visible {
+    outline: 3px solid var(--js-accent);
+    outline-offset: 3px;
+}
+
+.skip-link {
+    position: absolute;
+    top: -4rem;
+    left: 1rem;
+    z-index: 2000;
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    background: var(--js-accent);
+    color: var(--js-accent-contrast);
+    font-weight: 600;
+    text-decoration: none;
+    transition: top 0.15s;
+}
+
+.skip-link:focus {
+    top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* 4. Layout -------------------------------------------------------------- */
+.section {
+    padding: clamp(3rem, 8vw, 6rem) 0;
+    border-top: 1px solid var(--js-border);
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    background: color-mix(in srgb, var(--js-bg) 88%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--js-border);
+}
+
+.site-header .navbar {
+    --bs-navbar-color: var(--js-muted);
+    --bs-navbar-hover-color: var(--js-text);
+    --bs-navbar-active-color: var(--js-text);
+    --bs-navbar-toggler-border-color: var(--js-border);
+    --bs-navbar-toggler-icon-bg: var(--js-toggler-icon);
+    min-height: var(--js-header-h);
+}
+
+.site-header .nav-link {
+    font-weight: 500;
+}
+
+.site-footer {
+    padding: 2rem 0;
+    border-top: 1px solid var(--js-border);
+    color: var(--js-muted);
+    font-size: 0.9rem;
+}
+
+/* 5. Components ---------------------------------------------------------- */
+.brand-logo {
+    display: inline-flex;
+    align-items: center;
+}
+
+.brand-logo__img {
+    display: block;
+    height: 2.25rem;
+    width: auto;
+}
+
+.brand-logo__img--on-light {
+    display: none;
+}
+
+[data-bs-theme='light'] .brand-logo__img--on-light {
+    display: block;
+}
+
+[data-bs-theme='light'] .brand-logo__img--on-dark {
+    display: none;
+}
+
+.theme-toggle,
+.site-header .navbar-toggler {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1px solid var(--js-border);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--js-text);
+    transition: border-color 0.2s;
+}
+
+.theme-toggle:hover,
+.site-header .navbar-toggler:hover {
+    border-color: var(--js-accent);
+}
+
+.theme-toggle__icon--moon {
+    display: none;
+}
+
+[data-bs-theme='light'] .theme-toggle__icon--sun {
+    display: none;
+}
+
+[data-bs-theme='light'] .theme-toggle__icon--moon {
+    display: block;
+}
+
+.btn-accent {
+    --bs-btn-color: var(--js-accent-contrast);
+    --bs-btn-bg: var(--js-accent);
+    --bs-btn-border-color: var(--js-accent);
+    --bs-btn-hover-color: var(--js-accent-contrast);
+    --bs-btn-hover-bg: color-mix(in srgb, var(--js-accent) 85%, white);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--js-accent) 85%, white);
+    --bs-btn-active-color: var(--js-accent-contrast);
+    --bs-btn-active-bg: color-mix(in srgb, var(--js-accent) 75%, white);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--js-accent) 75%, white);
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.btn-outline-soft {
+    --bs-btn-color: var(--js-text);
+    --bs-btn-border-color: color-mix(in srgb, var(--js-text) 35%, transparent);
+    --bs-btn-hover-color: var(--js-bg);
+    --bs-btn-hover-bg: var(--js-text);
+    --bs-btn-hover-border-color: var(--js-text);
+    --bs-btn-active-color: var(--js-bg);
+    --bs-btn-active-bg: var(--js-text);
+    --bs-btn-active-border-color: var(--js-text);
+    padding: 0.65rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.hero {
+    padding: clamp(4rem, 12vw, 9rem) 0 clamp(3rem, 8vw, 6rem);
+}
+
+.display-title {
+    font-size: clamp(3.5rem, 14vw, 9rem);
+    margin-bottom: 1rem;
+}
+
+.eyebrow {
+    margin-bottom: 1rem;
+    color: var(--js-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.lead-text {
+    max-width: 36ch;
+    margin-bottom: 2rem;
+    color: var(--js-muted);
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+}
