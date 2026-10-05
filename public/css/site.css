@@ -2447,3 +2447,296 @@ a.press-music__title:hover {
 .booking-honeypot {
     display: none !important;
 }
+
+/* =========================================================
+   JUST SLICK — PREMIUM MOTION
+========================================================= */
+
+/* ---------------------------------------------------------
+   1. Animated hero colour atmosphere
+--------------------------------------------------------- */
+
+.hero-card--photo::before {
+    background-size: 145% 145%;
+    animation: jsHeroAura 12s ease-in-out infinite alternate;
+}
+
+@keyframes jsHeroAura {
+    0% {
+        background-position: 0% 20%;
+    }
+
+    50% {
+        background-position: 65% 45%;
+    }
+
+    100% {
+        background-position: 100% 80%;
+    }
+}
+
+
+/* ---------------------------------------------------------
+   2. Hero image parallax
+--------------------------------------------------------- */
+
+.hero-card__img {
+    transform:
+        translate3d(0, var(--hero-parallax, 0px), 0)
+        scale(1.06);
+
+    will-change: transform;
+}
+
+.hero-card.is-loaded .hero-card__img {
+    transform:
+        translate3d(0, var(--hero-parallax, 0px), 0)
+        scale(1.02);
+}
+
+
+/* ---------------------------------------------------------
+   3. Better reveal animation
+--------------------------------------------------------- */
+
+.js-reveal {
+    opacity: 0;
+
+    transform:
+        translate3d(0, 45px, 0)
+        scale(0.97);
+
+    filter: blur(5px);
+
+    transition:
+        opacity 850ms var(--js-ease),
+        transform 850ms var(--js-ease),
+        filter 850ms var(--js-ease);
+
+    transition-delay: var(--reveal-delay, 0ms);
+
+    will-change: opacity, transform, filter;
+}
+
+.js-reveal.is-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+}
+
+
+/* ---------------------------------------------------------
+   4. Heading reveal
+--------------------------------------------------------- */
+
+.js-heading-reveal {
+    overflow: hidden;
+}
+
+.js-heading-reveal > span {
+    display: inline-block;
+
+    opacity: 0;
+    transform: translateY(110%) rotate(2deg);
+
+    transition:
+        opacity 800ms var(--js-ease),
+        transform 900ms var(--js-ease);
+}
+
+.js-heading-reveal.is-visible > span {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+}
+
+
+/* ---------------------------------------------------------
+   5. Music card glow
+--------------------------------------------------------- */
+
+.live-release {
+    position: relative;
+}
+
+.live-release::after {
+    content: '';
+
+    position: absolute;
+    inset: -1px;
+
+    z-index: -1;
+
+    border-radius: calc(var(--js-radius) + 4px);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(0, 107, 182, 0),
+            rgba(0, 107, 182, 0.32),
+            rgba(237, 23, 76, 0.25),
+            rgba(237, 23, 76, 0)
+        );
+
+    opacity: 0;
+
+    filter: blur(18px);
+
+    transition:
+        opacity 500ms ease,
+        transform 600ms var(--js-ease);
+
+    transform: scale(0.9);
+
+    pointer-events: none;
+}
+
+.live-release:hover::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* ---------------------------------------------------------
+   6. Gallery image cinematic hover
+--------------------------------------------------------- */
+
+.gallery__item {
+    position: relative;
+}
+
+.gallery__item::after {
+    content: '';
+
+    position: absolute;
+    inset: 0;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            180deg,
+            transparent 55%,
+            rgba(0, 43, 92, 0.6) 100%
+        );
+
+    opacity: 0;
+
+    transition: opacity 450ms ease;
+
+    pointer-events: none;
+}
+
+.gallery__item:hover::after {
+    opacity: 1;
+}
+
+.gallery__item:hover .live-gallery-photo {
+    transform: scale(1.06);
+}
+
+
+/* ---------------------------------------------------------
+   7. Audio player pulse
+--------------------------------------------------------- */
+
+.js-audio-player.is-playing {
+    border-color:
+        color-mix(
+            in srgb,
+            var(--js-brand) 70%,
+            var(--js-border)
+        );
+
+    box-shadow:
+        0 0 0 1px rgba(0, 107, 182, 0.12),
+        0 15px 45px rgba(0, 107, 182, 0.12);
+}
+
+.js-audio-player.is-playing .js-audio-player__play {
+    animation: jsAudioPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes jsAudioPulse {
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 0 rgba(0, 107, 182, 0.3);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 10px rgba(0, 107, 182, 0);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   8. Subtle CTA breathing glow
+--------------------------------------------------------- */
+
+.cta-panel {
+    isolation: isolate;
+}
+
+.cta-panel::after {
+    animation: jsCtaFloat 8s ease-in-out infinite alternate;
+}
+
+@keyframes jsCtaFloat {
+    0% {
+        transform: translate3d(-4%, -3%, 0) scale(0.95);
+    }
+
+    100% {
+        transform: translate3d(5%, 6%, 0) scale(1.08);
+    }
+}
+
+
+/* ---------------------------------------------------------
+   9. Header becomes tighter when scrolling
+--------------------------------------------------------- */
+
+.site-header {
+    transition:
+        background-color 350ms ease,
+        border-color 350ms ease,
+        box-shadow 350ms ease,
+        backdrop-filter 350ms ease;
+}
+
+.site-header.is-scrolled {
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.12);
+
+    background:
+        color-mix(
+            in srgb,
+            var(--js-bg) 94%,
+            transparent
+        );
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* ---------------------------------------------------------
+   Accessibility
+--------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-card--photo::before,
+    .cta-panel::after,
+    .js-audio-player.is-playing .js-audio-player__play {
+        animation: none !important;
+    }
+
+    .js-reveal,
+    .js-heading-reveal > span {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
+}

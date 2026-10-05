@@ -649,3 +649,202 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const reduceMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    /*
+     * ------------------------------------------------------
+     * HERO LOAD
+     * ------------------------------------------------------
+     */
+    const hero = document.querySelector('.hero-card');
+
+    if (hero) {
+        requestAnimationFrame(() => {
+            hero.classList.add('is-loaded');
+        });
+    }
+
+
+    /*
+     * ------------------------------------------------------
+     * AUTOMATIC SCROLL REVEALS
+     * ------------------------------------------------------
+     */
+
+    const revealSelectors = [
+        '.section-head',
+        '.featured-card',
+        '.live-release',
+        '.gallery__item',
+        '.about-intro-copy',
+        '.about-biography',
+        '.booking-shell',
+        '.platform-strip__inner',
+        '.press-section',
+        '.press-facts__item',
+        '.press-music__item',
+        '.press-photo',
+        '.press-download'
+    ];
+
+    const revealItems = document.querySelectorAll(
+        revealSelectors.join(',')
+    );
+
+    revealItems.forEach((element, index) => {
+        element.classList.add('js-reveal');
+
+        /*
+         * Keep stagger short so long pages don't feel slow.
+         */
+        element.style.setProperty(
+            '--reveal-delay',
+            `${Math.min((index % 5) * 70, 280)}ms`
+        );
+    });
+
+
+    /*
+     * ------------------------------------------------------
+     * INTERSECTION OBSERVER
+     * ------------------------------------------------------
+     */
+
+    if (!reduceMotion && 'IntersectionObserver' in window) {
+
+        const observer = new IntersectionObserver(
+            entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
+
+                    entry.target.classList.add('is-visible');
+
+                    observer.unobserve(entry.target);
+                });
+            },
+            {
+                threshold: 0.12,
+                rootMargin: '0px 0px -8% 0px'
+            }
+        );
+
+        document
+            .querySelectorAll('.js-reveal, .js-heading-reveal')
+            .forEach(element => observer.observe(element));
+
+    } else {
+
+        document
+            .querySelectorAll('.js-reveal, .js-heading-reveal')
+            .forEach(element => {
+                element.classList.add('is-visible');
+            });
+    }
+
+
+    /*
+     * ------------------------------------------------------
+     * HERO PARALLAX
+     * ------------------------------------------------------
+     */
+
+    if (hero && !reduceMotion) {
+
+        let ticking = false;
+
+        const updateHero = () => {
+            const rect = hero.getBoundingClientRect();
+
+            if (rect.bottom > 0) {
+                const shift = Math.max(
+                    -25,
+                    Math.min(25, window.scrollY * 0.045)
+                );
+
+                hero.style.setProperty(
+                    '--hero-parallax',
+                    `${shift}px`
+                );
+            }
+
+            ticking = false;
+        };
+
+        window.addEventListener(
+            'scroll',
+            () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateHero);
+                    ticking = true;
+                }
+            },
+            {
+                passive: true
+            }
+        );
+    }
+
+
+    /*
+     * ------------------------------------------------------
+     * HEADER SCROLL STATE
+     * ------------------------------------------------------
+     */
+
+    const header = document.querySelector('.site-header');
+
+    const updateHeader = () => {
+        if (!header) return;
+
+        header.classList.toggle(
+            'is-scrolled',
+            window.scrollY > 30
+        );
+    };
+
+    updateHeader();
+
+    window.addEventListener(
+        'scroll',
+        updateHeader,
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+     * ------------------------------------------------------
+     * AUDIO PLAYER PLAYING STATE
+     * ------------------------------------------------------
+     */
+
+    document
+        .querySelectorAll('.js-audio-player')
+        .forEach(player => {
+
+            const audio = player.querySelector('audio');
+
+            if (!audio) {
+                return;
+            }
+
+            audio.addEventListener('play', () => {
+                player.classList.add('is-playing');
+            });
+
+            audio.addEventListener('pause', () => {
+                player.classList.remove('is-playing');
+            });
+
+            audio.addEventListener('ended', () => {
+                player.classList.remove('is-playing');
+            });
+        });
+});
